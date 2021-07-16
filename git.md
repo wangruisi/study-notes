@@ -1,4 +1,21 @@
-# git学习笔记
+git学习笔记
+
+[TOC]
+
+# 思维导图（未完成）
+
+```mermaid
+graph LR
+A[Git]-->B[git初始化]
+B-->BA[git init]-->BAA[初始化git仓库]
+B-->BB[git add .]-->BBA[将所有文件写入暂存区]
+B-->BC[git commit -m git相关笔记]-->BCA[写入本地仓库]
+B-->BD[git branch -M main]-->BDA[修改分支名称]
+B-->BE[git remote add origin https://github.com/caligula95/spring-security-jwt.git]-->BEA[推送到远程仓库的main分支: 这里还可以使用ssh链接推送]
+B-->BF[git push -u origin main]-->BEA
+```
+
+
 
 # 创建/推送仓库
 
@@ -113,10 +130,6 @@ git config --global --list
 
 ## 修改文件/添加文件
 
-### add：写入暂存区
-
-#### commit：写入本地仓库
-
 ```bash
 # 查看项目改动状态
 git status
@@ -191,7 +204,7 @@ git commit # 重新提交
 dfa29698b07b42f65bfefc9a3aea38ddb152d4ea test change
 56b6fc47be93f18b168a3152d0bbbe0e7a64dd15 (origin/main) change file
 
-➜  git-demo-test git:(main) git show dfa29698b07b42f65bfefc9a3aea38ddb152d4ea
+➜  git-demo-test git:(main) git show dfa29698b07b42f65bfefc9a3aea38ddb152d4ea[commmit_id]
 ```
 
 ![image-20210716141840032](git.assets/image-20210716141840032.png) 
@@ -210,7 +223,7 @@ git log -p index.html
 
 ## 回到最后一次提交状态（未加入暂存区）
 
-### 未进行commit && 未加入暂存区（未add）
+未进行commit && 未加入暂存区（未add）
 
 ```bash
 ➜  git-demo-test git:(main) git status
@@ -224,11 +237,9 @@ git log -p index.html
 ➜  git-demo-test git:(main) ✗ git checkout -- index.html
 ```
 
-
-
 ## 回到最后一次提交状态（已加入暂存区）
 
-### 未进行commit &&  加入暂存区（已add: git已进行文件追踪）
+未进行commit &&  加入暂存区（已add: git已进行文件追踪）
 
 **这时的git已经进行文件追踪了**
 
@@ -237,7 +248,7 @@ git log -p index.html
 # 无效了，git已进行文件追踪
 ➜  git-demo-test git:(main) ✗ git checkout -- index.html
 
-	
+
 # 此时git将文件移出暂存区
 ➜  git-demo-test git:(main) ✗ git reset HEAD index.html
 Unstaged changes after reset:
@@ -250,28 +261,28 @@ M       index.html
 
 ## 回到项目的上一个版本/指定版本【版本回退】
 
-### 已进行commit
+已进行commit
 
 ![image-20210716151446115](git.assets/image-20210716151446115.png) 
 
-### 上一个版本
+### 回退到上一个版本
 
 ```bash
-# 回到上一个版本 【^】
+# 回到上一个版本 【^: 一个^代表回退一个】
 ➜  git-demo-test git:(main) git reset --hard HEAD^
 ```
 
 ![image-20210716152350574](git.assets/image-20210716152350574.png) 
 
-### 指定版本
+### 回退到指定版本
 
 ```bash
-# 回到上一个版本 【^: 一个^代表回退一个】
+# 回到指定版本 【git reset --hard commit_id】
 ➜  git-demo-test git:(main) git reset --hard 10c09e
 HEAD is now at 10c09e1 版本1
 ```
 
-![image-20210716152555429](git.assets/image-20210716152555429.png) 
+![image-20210716152555429](git.assets/image-20210716152555429.png)  
 
 ![image-20210716152713225](git.assets/image-20210716152713225.png) 
 
@@ -280,13 +291,27 @@ HEAD is now at 10c09e1 版本1
 将文件index.html回到版本1的状态
 
 ```bash
-# 指定版本的ID: 10c09e1
+# 指定版本1的ID: 10c09e1[commit_id]
 git checkout 10c09e1 -- index.html 
 
 # 然后进行commit
 git add index.html
 git commit -m "回到到版本1的文件" 
 ```
+
+## <u>重新</u>回退到（最）新的版本
+
+如之前有5个version，现在回退到了version 1，怎么查重新回到version 5呢 ——`git reset --hard commit_id`
+
+如何找到最新版本的的commit id呢  ——— `git reflog`，该命令按照之前经过的所有的commit路径按序来排列，用来记录你的每一次命令。
+
+ ```bash
+git reflog
+ ```
+
+![image-20210716222144102](git.assets/image-20210716222144102.png) 
+
+依旧是：` git reset --hard commit_id[回退整个commit]/ git checkout commit_id -- index.html[回退某个文件]`
 
 ## 创建（版本）标签管理
 
@@ -310,7 +335,7 @@ Date:   Fri Jul 16 19:35:34 2021 +0800
 ### 为之前的某一次commit添加tag
 
 ```bash
-git tag v0.5 2e702 # 添加之前commit的ID
+git tag v0.5 2e702[想要添加commit的commit_id]
 ```
 
 ![image-20210716194346750](git.assets/image-20210716194346750.png) 
@@ -439,13 +464,17 @@ https://blog.csdn.net/Alice_qixin/article/details/97135719
 
 https://blog.csdn.net/qq_41563601/article/details/105467023
 
-# 其他
+# 补充说明
 
-1、学习参考视频：https://www.bilibili.com/video/BV1ka411w7Dd?p=26
+## 1、学习参考
+
+https://www.bilibili.com/video/BV1ka411w7Dd?p=26
+
+Git版本切换：https://www.jianshu.com/p/cf3102d44ad3
 
 注：P22-P25未看：多人协作管理代码
 
-2、配置git默认编辑器为vim
+## 2、配置git默认编辑器为vim
 
 ```bash
 git config --global core.editor "vim"
@@ -453,10 +482,32 @@ git config --global core.editor "vim"
 
 `cd -: 回到上一次的目录`
 
-3、在github.com后面添加1s可以变成在线查看工具：https://github1s.com/myoprojcect/test-demo/blob/HEAD/index2.html
+## 3、在github.com后面添加1s可以变成在线查看工具
+
+eg：https://github1s.com/myoprojcect/test-demo/blob/HEAD/index2.html
 
 <img src="git.assets/image-20210716210210205.png" alt="image-20210716210210205" style="zoom:67%;" /> 
 
-4、插件
+## 4、插件
 
 ![image-20210716210603820](git.assets/image-20210716210603820.png) ![image-20210716210647545](git.assets/image-20210716210647545.png) 
+
+## 5、【尝试】将git笔记上传上去
+
+1、创建仓库
+
+<img src="git.assets/image-20210716130118567.png" alt="image-20210716130118567" style="zoom:67%;" />  <img src="git.assets/image-20210716214226965.png" alt="image-20210716214226965" style="zoom:67%;" /> 
+
+2、将文件夹提交上去
+
+```bash
+ echo "# study-notes" >> README.md
+ git init
+ git add .
+ git status
+ git commit -m "git相关笔记"
+ git branch -M main
+ git remote add origin git@github.com:myoprojcect/study-notes.git
+ git push -u origin main
+```
+
