@@ -1,4 +1,4 @@
-# git学习笔记
+# 	git学习笔记
 
 - [git学习笔记](#git学习笔记)
 - [思维导图（未完成）](#思维导图未完成)
@@ -50,6 +50,8 @@
   - [6、github的md文件目录](#6github的md文件目录)
 
 # 思维导图（未完成）
+
+![image-20210716130118567](git.assets/git操作.png) 
 
 # 创建/推送仓库
 
@@ -376,7 +378,7 @@ git tag v0.5 2e702[想要添加commit的commit_id]
 ### 删除tag
 
 ```bash
-git tag v0.5
+git rm -d tag v0.5
 ```
 
 ### 推送到远程仓库
