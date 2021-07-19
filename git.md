@@ -173,7 +173,7 @@ git status
 git add index.html
 git status # 变绿
 
-# git commit 命令将暂存区内容 -> 本地仓库中
+# git commit 命令将暂存区内容 -> 提交到当前分支
 git commit -m "change file"
 
 # git push 推送到远程仓库
